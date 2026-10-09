@@ -19,6 +19,14 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(ONNXCC_WARNINGS /W4 /permissive-)
 endif()
 
+# sanitizers go on our targets only, instrumenting protobuf and onnx costs a long
+# rebuild and reports nothing we can act on. see the asan preset
+option(ONNXCC_SANITIZE "Build onnxcc targets with ASan and UBSan" OFF)
+if(ONNXCC_SANITIZE)
+    # -fno-sanitize-recover makes UBSan abort, otherwise it prints and the test still passes
+    set(ONNXCC_SANITIZER_FLAGS -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer)
+endif()
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 set(CMAKE_IGNORE_PREFIX_PATH "/opt/anaconda3")

@@ -8,6 +8,7 @@
 !/src/
 !/README.md
 !/CMakeLists.txt
+!/CMakePresets.json
 !/tests/
 !/scripts/
 !/.github/
