@@ -28,6 +28,7 @@ include(FetchContent)
 # Disable tests and shared libraries for protobuf subproject
 set(protobuf_BUILD_TESTS OFF CACHE BOOL "Disable tests for subproject" FORCE)
 set(protobuf_BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries for subproject" FORCE)
+set(protobuf_FORCE_FETCH_DEPENDENCIES ON CACHE BOOL "Force protobuf to fetch dependencies" FORCE)
 
 # To match onnx 1.23 requirements
 # Fetch it first to avoid conflicts with the system-installed protobuf
