@@ -2,6 +2,7 @@ add_executable(unit_tests
     unit/test_sanity.cpp
     unit/test_cli.cpp
     unit/test_parse.cpp
+    unit/test_arena.cpp
     unit/test_headers_compile.cpp
 <<<<<<< HEAD
     unit/test_status.cpp
@@ -74,3 +75,5 @@ if(Python3_Interpreter_FOUND)
 else()
     message(STATUS "Python3 not found: golden_determinism test not registered")
 endif()
+
+target_compile_options(unit_tests PRIVATE ${ONNXCC_SANITIZER_FLAGS})
