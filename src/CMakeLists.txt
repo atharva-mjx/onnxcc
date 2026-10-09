@@ -9,6 +9,7 @@ add_library(onnxcc_lib STATIC
     onnxcc/ir/datatype.cpp
     onnxcc/ir/graph.cpp
     onnxcc/ir/tensor_shape.cpp
+    onnxcc/memory/arena.cpp
 )
 
 add_executable(onnxcc onnxcc/main.cpp)
@@ -31,3 +32,7 @@ target_include_directories(onnxcc_lib
 
 target_compile_options(onnxcc_lib PRIVATE ${ONNXCC_WARNINGS})
 target_compile_options(onnxcc PRIVATE ${ONNXCC_WARNINGS})
+
+target_compile_options(onnxcc_lib PRIVATE ${ONNXCC_SANITIZER_FLAGS})
+target_link_options(onnxcc_lib PUBLIC ${ONNXCC_SANITIZER_FLAGS})
+target_compile_options(onnxcc PRIVATE ${ONNXCC_SANITIZER_FLAGS})
