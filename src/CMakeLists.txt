@@ -10,6 +10,7 @@ add_library(onnxcc_lib STATIC
     onnxcc/ir/graph.cpp
     onnxcc/ir/tensor_shape.cpp
     onnxcc/memory/arena.cpp
+    onnxcc/memory/tensor_view.cpp
 )
 
 add_executable(onnxcc onnxcc/main.cpp)
