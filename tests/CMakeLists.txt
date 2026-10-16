@@ -48,3 +48,22 @@ add_library(header_selfcheck OBJECT ${ONNXCC_SELFCHECK_SOURCES})
 # For onnxcc_lib's PUBLIC include directories. Nothing is linked so it never produces a binary
 target_link_libraries(header_selfcheck PRIVATE onnxcc_lib)
 target_compile_options(header_selfcheck PRIVATE ${ONNXCC_WARNINGS})
+
+# Python determinism test for the fixture and golden scripts.
+# The script exits with 77 when onnx/onnxruntime are not installed, which ctest reports as skipped instead of failed.
+# Labelled "python" so it can be run alone with: ctest --test-dir build -L python
+find_package(Python3 COMPONENTS Interpreter)
+if(Python3_Interpreter_FOUND)
+    add_test(
+        NAME golden_determinism
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/python/test_golden_determinism.py
+                --repo-root ${CMAKE_SOURCE_DIR}
+    )
+    set_tests_properties(golden_determinism PROPERTIES
+        SKIP_RETURN_CODE 77
+        LABELS python
+        TIMEOUT 600
+    )
+else()
+    message(STATUS "Python3 not found: golden_determinism test not registered")
+endif()
