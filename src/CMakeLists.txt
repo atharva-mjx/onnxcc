@@ -5,6 +5,9 @@ add_library(onnxcc_lib STATIC
     onnxcc/cli/cli.cpp
     onnxcc/cli/parse.cpp
     onnxcc/cli/dump_command.cpp
+    onnxcc/ir/attribute.cpp
+    onnxcc/ir/datatype.cpp 
+    onnxcc/ir/tensor_shape.cpp
 )
 
 add_executable(onnxcc onnxcc/main.cpp)

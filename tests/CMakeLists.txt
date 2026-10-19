@@ -3,7 +3,13 @@ add_executable(unit_tests
     unit/test_cli.cpp
     unit/test_parse.cpp
     unit/test_headers_compile.cpp
+<<<<<<< HEAD
     unit/test_status.cpp
+=======
+    unit/test_attribute.cpp
+    unit/test_datatype.cpp 
+    unit/test_tensor_shape.cpp
+>>>>>>> 7e197ba (Implemented data types, tensor shapes and attributes (Task 6 and 7) (#4))
 )
 
 # link the onnxcc_lib library to the unit_tests executable.
