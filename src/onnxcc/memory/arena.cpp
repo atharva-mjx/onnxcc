@@ -1,5 +1,6 @@
 #include "onnxcc/memory/arena.h"
 
+#include <cstdint>
 #include <cstdlib>
 #include <limits>
 #include <new>
@@ -79,10 +80,16 @@ namespace onnxcc {
             return nullptr;
         }
 
-        const std::size_t aligned = align_up(m_offset, alignment);
-        if (aligned == 0 && m_offset != 0) {
+        // align the address, not the offset. m_buffer is only 64 aligned, so for a larger
+        // alignment an aligned offset could still land on a misaligned address
+        const std::uintptr_t base = reinterpret_cast<std::uintptr_t>(m_buffer);
+        const std::uintptr_t current = base + m_offset;
+        const std::uintptr_t aligned_address = align_up(current, alignment);
+        if (aligned_address == 0 && current != 0) {
             return nullptr;
         }
+        // back to an offset, the padding in between counts as used
+        const std::size_t aligned = aligned_address - base;
         if (aligned > m_total) {
             return nullptr;
         }
