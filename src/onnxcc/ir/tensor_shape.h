@@ -27,13 +27,15 @@ struct TensorShape {
     // Format specification for tests:
     // Wrapped in brackets: "[...]"
     // Elements separated by comma and space: ", "
-    // Dynamic dimensions render as "?"
+    // Only a dim of exactly -1 (the dynamic dim) renders as "?"
+    // Any other negative dim is invalid and renders as its number (e.g. "-2"), so it stays visible
     // Rank 0 renders exactly as: "[]"
     std::string to_string() const;
     // check if the shape contains any dynamic or unknown dimensions.
     // dynamic dimensions are used for dynamic sizing of batch, inputs, etc
     // onnx unknown dims are mapped to -1 by parser
-    // check < 0 to also catch other invalid dims
+    // check < 0 (not just == -1) to also catch other invalid dims, they are reported as dynamic too
+    // note to_string() is narrower, it prints "?" for -1 only
     bool is_dynamic() const noexcept;
 };
 }

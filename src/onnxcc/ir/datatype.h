@@ -20,6 +20,8 @@ enum class DataType : std::int32_t {
 };
 
 // defined dtype_size in the header for compile time evaluation due to constexpr
+// dtype_size never returns 0 for a defined type, TensorShape::num_bytes divides by it
+// throws std::logic_error for UNDEFINED or a value outside the enum
 constexpr std::size_t dtype_size(DataType dt) {
     switch(dt) {
         case DataType::FLOAT32: return 4;

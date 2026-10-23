@@ -6,7 +6,8 @@ add_library(onnxcc_lib STATIC
     onnxcc/cli/parse.cpp
     onnxcc/cli/dump_command.cpp
     onnxcc/ir/attribute.cpp
-    onnxcc/ir/datatype.cpp 
+    onnxcc/ir/datatype.cpp
+    onnxcc/ir/graph.cpp
     onnxcc/ir/tensor_shape.cpp
 )
 

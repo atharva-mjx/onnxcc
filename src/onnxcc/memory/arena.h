@@ -19,7 +19,9 @@ public:
     MemoryArena& operator=(MemoryArena&&) noexcept;
 
     // Returns nullptr if the arena is exhausted or the request overflows
-    // alignment must be a power of two
+    // alignment must be a nonzero power of two. The returned address (not just the offset) is a multiple of alignment
+    // the buffer is 64 byte aligned, so 64 (the default) and anything smaller always holds, a larger one must be satisfied by aligning the address
+    // padding added to reach the alignment counts in bytes_used() and can make allocate() return nullptr
     // Zero-byte allocations return a valid pointer without advancing the offset
     void* allocate(std::size_t bytes, std::size_t alignment = 64);
 
