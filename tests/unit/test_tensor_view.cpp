@@ -88,6 +88,36 @@ TEST(TensorViewDeathTest, WrongByteCountAssertsInDebug) {
 }
 #endif
 
+// a dynamic shape has no fixed byte count, so over_arena rejects it
+TEST(TensorViewTest, OverArenaRejectsDynamicShape) {
+    MemoryArena arena(1024);
+
+    EXPECT_THROW(
+        TensorView::over_arena(arena, TensorShape{{-1, 4}}, DataType::FLOAT32),
+        std::logic_error
+    );
+}
+
+// UNDEFINED has no known element size, so over_arena rejects it
+TEST(TensorViewTest, OverArenaRejectsUndefinedDtype) {
+    MemoryArena arena(1024);
+
+    EXPECT_THROW(
+        TensorView::over_arena(arena, TensorShape{{4}}, DataType::UNDEFINED),
+        std::logic_error
+    );
+}
+
+// shape [0] contains zero elements: the view and its typed span should be empty
+TEST(TensorViewTest, OverArenaHandlesZeroElementShape) {
+    MemoryArena arena(1024);
+    TensorView view =
+        TensorView::over_arena(arena, TensorShape{{0}}, DataType::FLOAT32);
+
+    EXPECT_EQ(view.num_elements(), 0u);
+    EXPECT_TRUE(view.as<float>().empty());
+}
+
 // a 64 byte arena can't fit 100 floats (400 bytes), so over_arena throws instead of handing out null
 TEST(TensorViewTest, OverArenaThrowsWhenArenaIsFull) {
     MemoryArena arena(64);
