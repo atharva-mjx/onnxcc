@@ -13,7 +13,7 @@
       "displayName": "ASan + UBSan on the onnxcc targets",
       "binaryDir": "${sourceDir}/build-asan",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_BUILD_TYPE": "Debug",
         "ONNXCC_SANITIZE": "ON"
       }
     }
