@@ -111,6 +111,16 @@ TEST(MemoryArena, ExhaustionReturnsNullAndLeavesArenaUsable) {
     EXPECT_NE(nullptr, arena.allocate(8, 1));
 }
 
+// 100 bytes would fit after offset 1, but padding up to 64 leaves only 64, so you get nullptr
+TEST(MemoryArena, PaddingTest){
+    MemoryArena arena(128);
+    ASSERT_NE(nullptr, arena.allocate(1));
+    std:: size_t t = arena.bytes_used();
+    EXPECT_EQ(nullptr, arena.allocate(100, 64));
+    EXPECT_EQ(t, arena.bytes_used());
+    EXPECT_NE(nullptr, arena.allocate(100, 1)); //passed with no padding
+}
+
 // a giant size like SIZE_MAX would wrap around to a small number, it must return nullptr instead
 TEST(MemoryArena, HugeRequestOverflowsInsteadOfSucceeding) {
     MemoryArena arena(1024);
