@@ -11,6 +11,7 @@ add_library(onnxcc_lib STATIC
     onnxcc/ir/tensor_shape.cpp
     onnxcc/memory/arena.cpp
     onnxcc/memory/tensor_view.cpp
+    onnxcc/parser/parser.cpp
 )
 
 add_executable(onnxcc onnxcc/main.cpp)
